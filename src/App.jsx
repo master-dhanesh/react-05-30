@@ -3,7 +3,7 @@ import Mainroutes from "./routes/Mainroutes";
 
 const App = () => {
     return (
-        <div>
+        <div className="p-5">
             <Navbar />
             <Mainroutes />
         </div>
