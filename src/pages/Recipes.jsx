@@ -11,9 +11,14 @@ const Recipes = () => {
     ));
 
     return (
-        <div>
-            <Link to="/recipes/create-recipe">Create</Link>
-            <hr className="my-3" />
+        <div className="flex flex-wrap ">
+            <Link
+                className="absolute right-[10%] bg-green-400 px-4 py-2 rounded"
+                to="/recipes/create-recipe"
+            >
+                Create
+            </Link>
+
             {data.length > 0 ? reciperender : "Recipe Not found..."}
         </div>
     );
