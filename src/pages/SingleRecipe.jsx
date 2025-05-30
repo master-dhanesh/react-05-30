@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 
 const SingleRecipe = () => {
     const navigate = useNavigate();
-    const { data, setdata } = useContext(recipecontext);
+    const { data, setdata, fav, setfav } = useContext(recipecontext);
     const { id } = useParams();
     const recipe = data.find((r) => r.id == id);
     const {
@@ -22,6 +22,7 @@ const SingleRecipe = () => {
             desc: recipe.desc,
             ingr: recipe.ingr,
             inst: recipe.inst,
+            category: recipe.category,
         },
     });
 
@@ -30,21 +31,53 @@ const SingleRecipe = () => {
         const copydata = [...data];
         copydata[index] = { ...copydata[index], ...updatedrecipe };
         setdata(copydata);
+        localStorage.setItem("recipe", JSON.stringify(copydata));
+
         toast.success("recipe updated!");
     };
 
     const DeleteHandler = () => {
         const filteredRecipe = data.filter((r) => r.id != id);
         setdata(filteredRecipe);
+        // if the recipe is fav then delete the recipe from fav as well and save to localstorage
+        localStorage.setItem("recipe", JSON.stringify(filteredRecipe));
         toast.success("recipe deleted!");
         navigate("/recipes");
+    };
+
+    const FavHandler = () => {
+        const copyfav = [...fav];
+        copyfav.push(recipe);
+        setfav(copyfav);
+        localStorage.setItem("fav", JSON.stringify(copyfav));
+        toast.success("Added to Favroite!");
+    };
+    const UnFavHandler = () => {
+        const favfilter = fav.filter((f) => f.id != id);
+        setfav(favfilter);
+        localStorage.setItem("fav", JSON.stringify(favfilter));
+
+        toast.error("Removed from Favroite!");
     };
 
     return recipe ? (
         <div className="w-full  flex mt-10">
             {/*  */}
-            <div className="left w-1/2 p-2">
+            <div className="relative left w-1/2 p-2">
                 <h1 className="mb-5 text-5xl font-bold">{recipe.title}</h1>
+                {/*  */}
+                {fav.find((f) => f.id == id) ? (
+                    <i
+                        onClick={UnFavHandler}
+                        class="absolute top-[2%] right-[5%] text-red-400 text-3xl ri-heart-fill"
+                    ></i>
+                ) : (
+                    <i
+                        onClick={FavHandler}
+                        class="absolute top-[2%] right-[5%] text-red-400 text-3xl ri-heart-line"
+                    ></i>
+                )}
+                {/*  */}
                 <img
                     className="w-full h-[40vh] object-cover"
                     src={recipe.image}
