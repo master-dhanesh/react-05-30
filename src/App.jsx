@@ -1,16 +1,9 @@
-import { Link } from "react-router-dom";
-import Mainroutes from "./routes/Mainroutes";
+import { useSelector } from "react-redux";
 
 const App = () => {
-    return (
-        <div className="p-5 font-thin px-[10%]">
-            <nav className="mb-10 flex gap-x-10">
-                <Link to="/">Home</Link>
-                <Link to="/product">Products</Link>
-            </nav>
-            <Mainroutes />
-        </div>
-    );
+    const data = useSelector((state) => state);
+    console.log(data);
+    return <div className="font-thin px-[10%] mt-10">App</div>;
 };
 
 export default App;
