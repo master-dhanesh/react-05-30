@@ -1,23 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const initialState = {
-    data: [
-        {
-            id: 1,
-            title: "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-            price: 109.95,
-            description:
-                "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-            category: "men's clothing",
-            image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-            rating: {
-                rate: 3.9,
-                count: 120,
-            },
-        },
-    ],
+    data: [],
 };
+
 const productSlice = createSlice({
     name: "product",
     initialState,
+    reducers: {
+        load: (state, action) => {
+            state.data = action.payload;
+        },
+        create: (state, action) => {
+            // state -> current initialState
+            // action -> praraments(type,payload)
+            // console.log(action);
+            state.data.push(action.payload);
+        },
+    },
 });
-export default productSlice.reducer;
+export default productSlice.reducer; //data
+export const { create, load } = productSlice.actions; //functionality to change data
